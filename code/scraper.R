@@ -7,7 +7,7 @@ library(reshape2)
 
 # Helper function for running on ScraperWiki
 # Change a = T if running locally.
-onSw <- function(a = F, d = 'tool/') {
+onSw <- function(a = T, d = 'tool/') {
   if(a == T) return(d)
   else return('')
 }
