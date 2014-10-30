@@ -108,7 +108,7 @@ runScraper <- function() {
     # last_scraped
     # name
     dataset <- data.frame(
-      dsID = 'fts',
+      dsID = 'fts-ebola',
       last_updated = max(as.Date(value$period)),
       last_scraped = as.character(Sys.Date()),
       name = 'FTS Ebola Indicators'
