@@ -93,11 +93,11 @@ runScraper <- function() {
     # is_number
     # source
     value <- data.frame(
+      dsID = 'fts-ebola',
+      region = 'WLD',
       indID = df$variable,
       period = df$date,
       value = df$value,
-      dsID = 'fts-ebola',
-      region = 'WLD',
       is_number = 1,
       source = 'http://fts.unocha.org/pageloader.aspx?page=emerg-emergencyDetails&emergID=16506'
     )
