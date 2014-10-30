@@ -64,8 +64,8 @@ runScraper <- function() {
     # outMelt$value <- as.numeric(outMelt$value)
     
     # Multiplying for 1M
-    outMelt$value[1:4] <- outMelt$value[1:4] * 1e+06
-    outMelt$value[6] <- outMelt$value[6] * 1e+06
+    # outMelt$value[1:4] <- outMelt$value[1:4] * 1e+06
+    # outMelt$value[6] <- outMelt$value[6] * 1e+06
 
     # returning results
     cat('-------------------------------\n')
