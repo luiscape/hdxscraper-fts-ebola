@@ -7,10 +7,13 @@ library(reshape2)
 
 # Helper function for running on ScraperWiki
 # Change a = T if running locally.
-onSw <- function(a = T, d = 'tool/') {
+onSw <- function(a = F, d = 'tool/') {
   if(a == T) return(d)
   else return('')
 }
+
+# For not using scientific notation
+options(scipen=999)
 
 # Loading helper functions.
 source(paste0(onSw(), 'code/write_tables.R'))
@@ -63,7 +66,6 @@ runScraper <- function() {
     # Multiplying for 1M
     outMelt$value[1:4] <- outMelt$value[1:4] * 1e+06
     outMelt$value[6] <- outMelt$value[6] * 1e+06
-    outMelt$value <- format(outMelt$value, scientific = F)    
 
     # returning results
     cat('-------------------------------\n')
