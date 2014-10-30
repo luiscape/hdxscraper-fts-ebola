@@ -63,10 +63,7 @@ runScraper <- function() {
     # Multiplying for 1M
     outMelt$value[1:4] <- outMelt$value[1:4] * 1e+06
     outMelt$value[6] <- outMelt$value[6] * 1e+06
-    outMelt$value <- format(outMelt$value, scientific = F)
-    outMelt$value <- sub('\\.0', '', outMelt$value)
-    outMelt$value[5] <- sub('       ', '', outMelt$value[5])  # mystery: spaces appearing
-    
+    outMelt$value <- format(outMelt$value, scientific = F)    
 
     # returning results
     cat('-------------------------------\n')
