@@ -6,11 +6,11 @@ writeTables <- function(df = NULL,
                         db = NULL, 
                         testing = FALSE) {
   # sanity check
-  if (is.null(df) == TRUE) stop("Don't forget to provide a data.frame.")
+  if(is.null(df) == TRUE) stop("Don't forget to provide a data.frame.")
   if(is.null(table_name) == TRUE) stop("Don't forget to provide a table name.")
   if(is.null(db) == TRUE) stop("Don't forget to provide a data base name.")
   
-  message('Storing data in a database.')
+  cat('Storing data in a database: ')
   
   # creating db
   db_name <- paste0(db, ".sqlite")
@@ -22,14 +22,14 @@ writeTables <- function(df = NULL,
                  table_name,
                  df,
                  row.names = FALSE,
-                 overwrite = TRUE)
+                 append = TRUE)
   }
   else {
     dbWriteTable(db,
                  table_name,
                  df,
                  row.names = FALSE,
-                 overwrite = TRUE)
+                 append = TRUE)
   }
   
   # testing mode
@@ -49,5 +49,5 @@ writeTables <- function(df = NULL,
   } 
 
   dbDisconnect(db)
-  message('Done!')
+  cat('Done!\n')
 }
