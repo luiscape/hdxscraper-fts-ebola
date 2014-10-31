@@ -11,7 +11,8 @@ def getOldResourceProperties(resource_id, key):
         user_agent='ckanapiexample/1.0')
 
         try:
-                print('Updating resource.\n')
+                print('Updating resource:' + resource_id + '\n')
+                print('On https://data.hdx.rwlabs.org/' + '\n')
                 current_time = dt.datetime.now().time()
                 t = "Updated at: " + str(current_time)
                 hdx.action.resource_update(id = resource_id,
