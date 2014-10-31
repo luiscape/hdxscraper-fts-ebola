@@ -96,8 +96,8 @@ exctractIndicators <- function(df = NULL) {
   cap_pledges$value <- cumsum(cap_pledges$value)  # making values cumulative
   
   # Adding the indicators together.
-  output <- rbind(cap_pledges, non_cap_pledges, non_cap_funding, cap_funding, cap_required)
+  output <- rbind(cap_pledges, non_cap_pledges, non_cap_funding, cap_funding, cap_required, cap_coverage)
   
   cat('Done!\n')
-  return(cap_coverage)
+  return(output)
 }
