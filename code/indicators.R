@@ -33,7 +33,22 @@ exctractIndicators <- function(df = NULL) {
   row.names(non_cap_funding) <- NULL  # cleaning row.names
   non_cap_funding$value <- cumsum(non_cap_funding$value)  # making values cumulative
   
-  ## Extracting CHD.FUN.140 // CAP Funding
+  ## Extracting CHD.FUN.140 // CAP Requirements
+  sub <- fetchRequirement(1060)
+  
+  cap_required <- data.frame(
+    dsID = 'fts-ebola',
+    region = 'WLD',
+    indID = 'CHD.FUN.140',
+    period = as.character(as.Date(sub$launch_date)),
+    value = sub$original_requirements,
+    is_number = 1,
+    source = 'http://fts.unocha.org/pageloader.aspx?page=emerg-emergencyDetails&emergID=16506'
+  )
+  row.names(cap_required) <- NULL  # cleaning row.names
+  # cap_funding$value <- cumsum(cap_funding$value)  # making values cumulative
+  
+  ## Extracting CHD.FUN.141 // CAP Funding
   sub <- df[(df$status == 'Paid contribution' | df$status == 'Commitment') & df$appeal_id == 1060, ]
   
   cap_funding <- data.frame(
@@ -47,6 +62,22 @@ exctractIndicators <- function(df = NULL) {
   )
   row.names(cap_funding) <- NULL  # cleaning row.names
   cap_funding$value <- cumsum(cap_funding$value)  # making values cumulative
+  
+  ## Extracting CHD.FUN.142 // CAP Funding Coverage
+  sub <- df[(df$status == 'Paid contribution' | df$status == 'Commitment') & df$appeal_id == 1060, ]
+  
+  cap_coverage <- data.frame(
+    dsID = 'fts-ebola',
+    region = 'WLD',
+    indID = 'CHD.FUN.142',
+    period = row.names(tapply(sub$amount, sub$decision_date, sum)),
+    value = tapply(sub$amount, sub$decision_date, sum),
+    is_number = 1,
+    source = 'http://fts.unocha.org/pageloader.aspx?page=emerg-emergencyDetails&emergID=16506'
+  )
+  row.names(cap_funding) <- NULL  # cleaning row.names
+  cap_coverage$value <- cumsum(cap_coverage$value)  # making values cumulative
+  cap_coverage$value <- round((cap_coverage$value / cap_required$value), 3)  # calculating proportion
   
   ## Extracting CHD.FUN.143 // Pledges
   sub <- df[df$status == 'Pledge' & df$appeal_id != 0, ]
@@ -65,8 +96,8 @@ exctractIndicators <- function(df = NULL) {
   cap_pledges$value <- cumsum(cap_pledges$value)  # making values cumulative
   
   # Adding the indicators together.
-  output <- rbind(cap_pledges, non_cap_pledges, non_cap_funding, cap_funding)
+  output <- rbind(cap_pledges, non_cap_pledges, non_cap_funding, cap_funding, cap_required)
   
   cat('Done!\n')
-  return(output)
+  return(cap_coverage)
 }

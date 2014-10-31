@@ -3,7 +3,7 @@ library(RCurl)
 library(rjson)
 
 # ScraperWiki deployed
-onSw <- function(a = T, d = 'tool/') {
+onSw <- function(a = F, d = 'tool/') {
   if (a == T) return(d)
   else return('')
 }
