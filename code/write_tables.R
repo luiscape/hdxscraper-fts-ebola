@@ -22,14 +22,14 @@ writeTables <- function(df = NULL,
                  table_name,
                  df,
                  row.names = FALSE,
-                 append = TRUE)
+                 overwrite = TRUE)
   }
   else {
     dbWriteTable(db,
                  table_name,
                  df,
                  row.names = FALSE,
-                 append = TRUE)
+                 overwrite = TRUE)
   }
   
   # testing mode
