@@ -19,7 +19,7 @@ exctractIndicators <- function(df = NULL) {
   non_cap_pledges$value <- cumsum(non_cap_pledges$value)  # making values cumulative
   
   ## Extracting CHD.FUN.139 // Non-CAP Funding
-  sub <- df[df$status == 'Paid contribution' | df$status == 'Commitment', ]
+  sub <- df[df$status == 'Paid contribution' | df$status == 'Commitment' , ]
   
   non_cap_funding <- data.frame(
     dsID = 'fts-ebola',
@@ -46,10 +46,14 @@ exctractIndicators <- function(df = NULL) {
     source = 'http://fts.unocha.org/pageloader.aspx?page=emerg-emergencyDetails&emergID=16506'
   )
   row.names(cap_required) <- NULL  # cleaning row.names
-  # cap_funding$value <- cumsum(cap_funding$value)  # making values cumulative
   
   ## Extracting CHD.FUN.141 // CAP Funding
-  sub <- df[(df$status == 'Paid contribution' | df$status == 'Commitment') & df$appeal_id == 1060, ]
+  sub <- df[
+    (df$status == 'Paid contribution' | df$status == 'Commitment')
+    & df$appeal_id == 1060
+    & df$docid != 220577  # experiment: excluding suspicious contribution
+    & df$docid != 220579,  # experiment: excluding suspicious contribution
+    ]
   
   cap_funding <- data.frame(
     dsID = 'fts-ebola',
@@ -64,7 +68,12 @@ exctractIndicators <- function(df = NULL) {
   cap_funding$value <- cumsum(cap_funding$value)  # making values cumulative
   
   ## Extracting CHD.FUN.142 // CAP Funding Coverage
-  sub <- df[(df$status == 'Paid contribution' | df$status == 'Commitment') & df$appeal_id == 1060, ]
+  sub <- df[
+    (df$status == 'Paid contribution' | df$status == 'Commitment') 
+    & df$appeal_id == 1060
+    & df$docid != 220577  # experiment: excluding suspicious contribution
+    & df$docid != 220579,  # experiment: excluding suspicious contribution
+    ]
   
   cap_coverage <- data.frame(
     dsID = 'fts-ebola',
@@ -75,12 +84,14 @@ exctractIndicators <- function(df = NULL) {
     is_number = 1,
     source = 'http://fts.unocha.org/pageloader.aspx?page=emerg-emergencyDetails&emergID=16506'
   )
-  row.names(cap_funding) <- NULL  # cleaning row.names
+  row.names(cap_coverage) <- NULL  # cleaning row.names
   cap_coverage$value <- cumsum(cap_coverage$value)  # making values cumulative
   cap_coverage$value <- round((cap_coverage$value / cap_required$value), 3)  # calculating proportion
   
   ## Extracting CHD.FUN.143 // Pledges
-  sub <- df[df$status == 'Pledge' & df$appeal_id != 0, ]
+  sub <- df[df$status == 'Pledge'
+            & df$appeal_id != 0
+            & df$is_allocation != 1, ]
   
   ## Using the value schema
   cap_pledges <- data.frame(

@@ -6,6 +6,7 @@ fetchSummary <- function(id = NULL) {
   
   output <- data.frame(
     date = as.character(Sys.Date()),
+    original_requirements = doc[[1]]$original_requirements,
     current_requirements = doc[[1]]$current_requirements,
     funding = doc[[1]]$funding,
     pledges = doc[[1]]$pledges

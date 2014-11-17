@@ -3,7 +3,7 @@ library(RCurl)
 library(rjson)
 
 # ScraperWiki deployed
-onSw <- function(a = T, d = 'tool/') {
+onSw <- function(a = T, d = '~/tool/') {
   if (a == T) return(d)
   else return('')
 }
@@ -15,7 +15,7 @@ source(paste0(onSw(), 'code/indicators.R'))  # for extracting indicators
 source(paste0(onSw(), 'code/parsecps.R'))  # for storing in the required format
 source(paste0(onSw(), 'code/sw_status.R'))  # for changing status in SW
 source(paste0(onSw(), 'code/write_tables.R'))  # for writing db tables
-source(paste0(onSw(), 'tests/accuracy.R'))  # for writing db tables
+source(paste0(onSw(), 'tests/accuracy.R'))  # for executing value tests
 
 runScraper <- function(test = T) {
   # Data collection
@@ -31,7 +31,7 @@ runScraper <- function(test = T) {
 }
 
 # Changing the status of SW.
-tryCatch(runScraper(F),
+tryCatch(runScraper(),
          error = function(e) {
            cat('Error detected ... sending notification.')
            system('mail -s "FTS Ebola failed." luiscape@gmail.com, takavarasha@un.org')
