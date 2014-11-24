@@ -21,9 +21,9 @@ accuracyTest <- function(df = NULL, appeal_id = NULL) {
     scraped = max(df$value[df$indID == indIDs[i]])
     
     # selecting the values depending on the indicator / test
-    if (i == 1) fts = fts_summary$original_requirements
+    if (i == 1) fts = fts_summary$current_requirements
     if (i == 2) fts = fts_summary$funding
-    if (i == 3) fts = round(fts_summary$funding / fts_summary$original_requirements, 3)
+    if (i == 3) fts = round(fts_summary$funding / fts_summary$current_requirements, 3)
     if (i == 4) fts = fts_summary$pledges
     
     # testing

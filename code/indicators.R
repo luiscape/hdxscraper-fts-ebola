@@ -4,7 +4,8 @@ exctractIndicators <- function(df = NULL) {
   cat('Extracting indicators | ')
   
   ## Extracting CHD.FUN.138 // Non-CAP Pledges
-  sub <- df[df$status == 'Pledge', ]
+  sub <- df[df$status == 'Pledge'
+            & df$is_allocation != 1, ]
   
   non_cap_pledges <- data.frame(
     dsID = 'fts-ebola',
@@ -19,7 +20,8 @@ exctractIndicators <- function(df = NULL) {
   non_cap_pledges$value <- cumsum(non_cap_pledges$value)  # making values cumulative
   
   ## Extracting CHD.FUN.139 // Non-CAP Funding
-  sub <- df[df$status == 'Paid contribution' | df$status == 'Commitment' , ]
+  sub <- df[(df$status == 'Paid contribution' | df$status == 'Commitment') 
+            & df$is_allocation != 1 , ]
   
   non_cap_funding <- data.frame(
     dsID = 'fts-ebola',
@@ -41,7 +43,7 @@ exctractIndicators <- function(df = NULL) {
     region = 'WLD',
     indID = 'CHD.FUN.140',
     period = as.character(as.Date(sub$launch_date)),
-    value = sub$original_requirements,
+    value = sub$current_requirements,
     is_number = 1,
     source = 'http://fts.unocha.org/pageloader.aspx?page=emerg-emergencyDetails&emergID=16506'
   )
@@ -49,10 +51,11 @@ exctractIndicators <- function(df = NULL) {
   
   ## Extracting CHD.FUN.141 // CAP Funding
   sub <- df[
-    (df$status == 'Paid contribution' | df$status == 'Commitment')
-    & df$appeal_id == 1060
-    & df$docid != 220577  # experiment: excluding suspicious contribution
-    & df$docid != 220579,  # experiment: excluding suspicious contribution
+      (
+        (df$status == 'Paid contribution' | df$status == 'Commitment')
+        & df$appeal_id == 1060
+        & df$is_allocation != 1
+      ) | (df$donor == 'Central Emergency Response Fund'), 
     ]
   
   cap_funding <- data.frame(
@@ -69,10 +72,11 @@ exctractIndicators <- function(df = NULL) {
   
   ## Extracting CHD.FUN.142 // CAP Funding Coverage
   sub <- df[
-    (df$status == 'Paid contribution' | df$status == 'Commitment') 
-    & df$appeal_id == 1060
-    & df$docid != 220577  # experiment: excluding suspicious contribution
-    & df$docid != 220579,  # experiment: excluding suspicious contribution
+      (
+        (df$status == 'Paid contribution' | df$status == 'Commitment')
+        & df$appeal_id == 1060
+        & df$is_allocation != 1
+      ) | (df$donor == 'Central Emergency Response Fund'), 
     ]
   
   cap_coverage <- data.frame(
