@@ -55,7 +55,7 @@ exctractIndicators <- function(df = NULL) {
         (df$status == 'Paid contribution' | df$status == 'Commitment')
         & df$appeal_id == 1060
         & df$is_allocation != 1
-      ) | (df$donor == 'Central Emergency Response Fund'), 
+      ) | (df$donor == 'Central Emergency Response Fund' | df$donor == 'Common Humanitarian Fund'), 
     ]
   
   cap_funding <- data.frame(
@@ -76,7 +76,7 @@ exctractIndicators <- function(df = NULL) {
         (df$status == 'Paid contribution' | df$status == 'Commitment')
         & df$appeal_id == 1060
         & df$is_allocation != 1
-      ) | (df$donor == 'Central Emergency Response Fund'), 
+      ) | (df$donor == 'Central Emergency Response Fund' | df$donor == 'Common Humanitarian Fund'),
     ]
   
   cap_coverage <- data.frame(
