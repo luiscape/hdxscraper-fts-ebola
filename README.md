@@ -13,4 +13,8 @@ The indicators included in this scraper are:
 - Ebola Virus Outbreak - Overview of Needs and Requirements (inter-agency plan for Guinea, Liberia, Sierra Leone, Region) (Pledges)
 - Total Number of Ebola Health Facilities
 
-This scraper was designed to run on [ScraperWiki](https://scraperwiki.com/).
+This scraper was designed to run on [ScraperWiki](https://scraperwiki.com/i).
+
+# License
+
+This work is licensed under [General Public License v3](https://www.gnu.org/copyleft/gpl.html).
