@@ -3,24 +3,34 @@ library(RCurl)
 library(rjson)
 
 # ScraperWiki deployed
-onSw <- function(a = T, d = '~/tool/') {
-  if (a == T) return(d)
-  else return('')
+onSw <- function(p = NULL, d = 'tool/', a = F) {
+  if (a == T) return(paste0(d,p))
+  else return(p)
 }
 
 # Loading helper funtions
-source(paste0(onSw(), 'code/summary.R'))  # collect summary data
-source(paste0(onSw(), 'code/timeseries.R'))  # collect all financial data
-source(paste0(onSw(), 'code/indicators.R'))  # for extracting indicators
-source(paste0(onSw(), 'code/parsecps.R'))  # for storing in the required format
-source(paste0(onSw(), 'code/sw_status.R'))  # for changing status in SW
-source(paste0(onSw(), 'code/write_tables.R'))  # for writing db tables
-source(paste0(onSw(), 'tests/accuracy.R'))  # for executing value tests
+source(onSw('code/summary.R')) # collect summary data
+source(onSw('code/timeseries.R'))  # collect all financial data
+source(onSw('code/indicators.R')) # for extracting indicators
+source(onSw('code/parsecps.R')) # for storing in the required format
+source(onSw('code/sw_status.R'))  # for changing status in SW
+source(onSw('code/write_tables.R'))  # for writing db tables
+source(onSw('tests/accuracy.R'))  # for executing value tests
+
+# Function for fixing possible errors.
+patchErrors <- function(df = NULL, v = NULL) {
+  df <- df[df$docid != v,]
+  return(df)
+}
 
 runScraper <- function(test = T) {
   # Data collection
   fts_summary <- fetchSummary(1060)
   fts_timeseries <- fetchTimeSeries(16506)
+  
+  # Apply patch for data point from December 2015.
+  # If errors are patched, tests will fail.
+  fts_timeseries <- patchErrors(df = fts_timeseries, v = c(224764))
   
   # Extracting indicators
   indicator_data <- exctractIndicators(fts_timeseries)
