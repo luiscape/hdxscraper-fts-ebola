@@ -41,7 +41,7 @@ runScraper <- function(test = TRUE, patch = FALSE) {
 }
 
 # Changing the status of SW.
-tryCatch(runScraper(),
+tryCatch(runScraper(patch=TRUE),
          error = function(e) {
            cat('Error detected ... sending notification.')
            system('mail -s "FTS Ebola failed." luiscape@gmail.com, takavarasha@un.org')
