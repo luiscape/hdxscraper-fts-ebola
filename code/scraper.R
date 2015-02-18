@@ -23,14 +23,14 @@ patchErrors <- function(df = NULL, v = NULL) {
   return(df)
 }
 
-runScraper <- function(test = T) {
+runScraper <- function(test = TRUE, patch = FALSE) {
   # Data collection
   fts_summary <- fetchSummary(1060)
   fts_timeseries <- fetchTimeSeries(16506)
   
   # Apply patch for data point from December 2015.
   # If errors are patched, tests will fail.
-  fts_timeseries <- patchErrors(df = fts_timeseries, v = c(224764))
+  if (patch) fts_timeseries <- patchErrors(df = fts_timeseries, v = c(224764))
   
   # Extracting indicators
   indicator_data <- exctractIndicators(fts_timeseries)
